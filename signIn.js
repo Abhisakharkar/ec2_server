@@ -44,7 +44,7 @@ var sign_in= function (req,res) {
 
                                         var myobj={
                                           signIn: true,
-                                          responseFrom:"sign_in",
+                                          responseFrom:"sign_in",     // also  kept same for update device id
                                           retailerAuthTable:rows[0]
                                         }
                                         console.log(JSON.stringify(myobj));

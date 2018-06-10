@@ -63,6 +63,15 @@ var upload = multer({ storage: storage })
        sign_in(req,res);
  });
 
+ app.post('/add_retailer_product_id', jsonParser, function (req, res) {
+     console.log("Request from:"+req.url);
+     if (!req.body) return res.sendStatus(400);
+
+     add_retailer_product_id = require('./addRetailerProductId');
+     add_retailer_product_id(req,res);
+
+
+   });
 
 
 app.post('/upload', upload.single('imageFile'), function (req, res, next) {
@@ -104,25 +113,24 @@ app.post('/magento_info_product', jsonParser, function (req, res) {
 
   });
 
-app.post('/add_product', jsonParser, function (req, res) {
+
+app.post('/display_products_associated_with_retailer_id', jsonParser, function (req, res) {
     console.log("Request from:"+req.url);
     if (!req.body) return res.sendStatus(400);
 
-    product_details_entry = require('./addProduct');
-    product_details_entry(req,res);
-
-
+    display_products_associated_with_retailer_id = require('./displayProductsAssociatedWithRetailerId');
+    display_products_associated_with_retailer_id(req,res);
   });
 
-app.post('/display_product_details', jsonParser, function (req, res) {
-    console.log("Request from:"+req.url);
-    if (!req.body) return res.sendStatus(400);
+  app.post('/update_device_id', jsonParser, function (req, res) {
+      if (!req.body) return res.sendStatus(400);
 
-    display_product_details = require('./display_product_details');
-    display_product_details(req,res);
+      update_device_id = require('./updateDeviceId');
+      update_device_id(req,res);
 
+      console.log("Request from:"+req.url);
 
-  });
+    });
 
 app.post('/is_data_filled', jsonParser, function (req, res) {
     if (!req.body) return res.sendStatus(400);
