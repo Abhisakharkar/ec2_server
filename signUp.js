@@ -1,9 +1,10 @@
 var sign_up = function (req,res) {
   var mysql = require('mysql');
 
-  var mail,password,subsciptionDateTime,codeVerified,mandatoryDate,membership,retailerId,shopActPhoto,shopActLicenseNo;
+  var deviceId,mail,password,subsciptionDateTime,codeVerified,mandatoryDate,membership,retailerId,shopActPhoto,shopActLicenseNo;
   mail=req.body.mail;
   password=req.body.password;
+  deviceId=req.body.deviceId;
   subscriptionDateTime=req.body.subscriptionDateTime;
   codeVerified=0;
   mandatoryData=0;
@@ -42,8 +43,8 @@ var sign_up = function (req,res) {
     }
     else {
             console.log("Connected to database!");
-            var sql = "INSERT INTO `RETAILER_AUTH` (`retailerId`, `mail`, `password`, `membership`, `subscriptionDateTime`, `shopActPhoto`, `shopActLicenseNo`, `code`, `codeVerified`, `mandatoryData`) VALUES (?,?,?,?,?,?,?,?,?,?)";
-            con.query(sql,[retailerId,mail,password,membership,subscriptionDateTime,shopActPhoto,shopActLicenseNo,code,codeVerified,mandatoryData],function (err,result) {
+            var sql = "INSERT INTO `RETAILER_AUTH` (`retailerId`, `mail`, `password`, `membership`, `subscriptionDateTime`, `shopActPhoto`, `shopActLicenseNo`, `code`, `codeVerified`, `mandatoryData`,`deviceId`) VALUES (?,?,?,?,?,?,?,?,?,?,?)";
+            con.query(sql,[retailerId,mail,password,membership,subscriptionDateTime,shopActPhoto,shopActLicenseNo,code,codeVerified,mandatoryData,deviceId],function (err,result) {
                     if (err) {
                       console.log(err);
                       console.log("error in sign_up query insertion");
