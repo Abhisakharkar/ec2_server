@@ -37,7 +37,7 @@ var verify_mail = function (req,res) {
                         res.send(JSON.stringify(myobj));
                         }
                         else {
-                            retailerId=rows[0].RetailerId;
+                            retailerId=rows[0].retailerId;
                             var sql ="UPDATE RETAILER_AUTH SET code = '-32565' , codeVerified = '1'  WHERE retailerId = ? ";
                             con.query(sql,[retailerId],function (err,result) {
                                 if(err){
