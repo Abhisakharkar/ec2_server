@@ -20,7 +20,7 @@ var check_mail_exist = function (req,res) {
     }
     else {
       console.log("Connected to database!");
-      var sql = "SELECT * FROM `RETAILER_AUTH` where `Mail`= ?";
+      var sql = "SELECT * FROM `RETAILER_AUTH` where `mail`= ?";
       con.query(sql,[mail], function (err, rows) {
         if(err)
         {console.log(err);
@@ -31,14 +31,14 @@ var check_mail_exist = function (req,res) {
             console.log("mail does not exist");
               var myobj={
               mailExist:false,
-              responseFrom:"checkMailExist"
+              responseFrom:"check_mail_exist"
             }
           }
           else{
             console.log("mail exist");
               var myobj={
               mailExist:true,
-              responseFrom:"checkMailExist"
+              responseFrom:"check_mail_exist"
             }
           }
           console.log(JSON.stringify(myobj));

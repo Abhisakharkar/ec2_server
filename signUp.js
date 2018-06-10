@@ -42,14 +42,15 @@ var sign_up = function (req,res) {
     }
     else {
             console.log("Connected to database!");
-            var sql = "INSERT INTO `RETAILER_AUTH` (`RetailerId`, `Mail`, `Password`, `Membership`, `SubscriptionDateTime`, `ShopActPhoto`, `ShopActLicenseNo`, `Code`, `CodeVerified`, `MandatoryData`) VALUES (?,?,?,?,?,?,?,?,?,?)";
+            var sql = "INSERT INTO `RETAILER_AUTH` (`retailerId`, `mail`, `password`, `membership`, `subscriptionDateTime`, `shopActPhoto`, `shopActLicenseNo`, `code`, `codeVerified`, `mandatoryData`) VALUES (?,?,?,?,?,?,?,?,?,?)";
             con.query(sql,[retailerId,mail,password,membership,subscriptionDateTime,shopActPhoto,shopActLicenseNo,code,codeVerified,mandatoryData],function (err,result) {
                     if (err) {
                       console.log(err);
                       console.log("error in sign_up query insertion");
                       var myobj={
                       signUpSuccessStatus: false,
-                      mailSent:false
+                      mailSent:false,
+                      responseFrom:"sign_up"
                       }
                       console.log(JSON.stringify(myobj));
                       res.end(JSON.stringify(myobj));
@@ -61,7 +62,8 @@ var sign_up = function (req,res) {
             		            console.log(error);
                             var myobj={
                                 signUpSuccessStatus: true,
-                                mailSent:false
+                                mailSent:false,
+                                responseFrom:"sign_up"
                             }
                             console.log(JSON.stringify(myobj));
                             res.end(JSON.stringify(myobj));
@@ -70,7 +72,8 @@ var sign_up = function (req,res) {
             		              console.log('Email sent: ' + info.response);
                               var myobj={
                                 signUpSuccessStatus: true,
-                                mailSent:true
+                                mailSent:true,
+                                responseFrom:"sign_up"
                               }
                               console.log(JSON.stringify(myobj));
                               res.end(JSON.stringify(myobj));

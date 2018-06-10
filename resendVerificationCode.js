@@ -37,13 +37,14 @@ var resend_verification_code= function (req,res) {
             }
             else {
                   console.log("Connected to database!");
-                  var sql ="UPDATE RETAILER_AUTH SET Code = ?  WHERE Mail = ? AND Password =?";
+                  var sql ="UPDATE RETAILER_AUTH SET Code = ?  WHERE mail = ? AND password =?";
                   con.query(sql,[code,mail,password],function (err,result) {
                           if(err){
                           console.log(err);
                           var myobj={
                           codeUpdate:false,
-                          update:false
+                          update:false,
+                          responseFrom:"resend_verification_code"
                           }
                           console.log(JSON.stringify(myobj));
                           res.send(JSON.stringify(myobj));
@@ -54,7 +55,8 @@ var resend_verification_code= function (req,res) {
                                         console.log(error);
                                         var myobj={
                                           codeUpdate: true,
-                                          mailSent:false
+                                          mailSent:false,
+                                          responseFrom:"resend_verification_code"
                                         }
                                         console.log(JSON.stringify(myobj));
                                         res.end(JSON.stringify(myobj));
@@ -63,7 +65,8 @@ var resend_verification_code= function (req,res) {
                                         console.log('Email sent: ' + info.response);
                                         var myobj={
                                           codeUpdate: true,
-                                          mailSent:true
+                                          mailSent:true,
+                                          responseFrom:"resend_verification_code"
                                         }
                                         console.log(JSON.stringify(myobj));
                                         res.end(JSON.stringify(myobj));

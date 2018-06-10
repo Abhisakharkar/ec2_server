@@ -18,13 +18,14 @@ var sign_in= function (req,res) {
             }
             else {
                   console.log("Connected to database!");
-                  var sql ="SELECT * FROM RETAILER_AUTH WHERE Mail = ? AND Password =?";
+                  var sql ="SELECT * FROM RETAILER_AUTH WHERE mail = ? AND password =?";
                   con.query(sql,[mail,password],function (err,rows) {
                           if(err){
                           console.log(err);
                           console.log("error in sql query in sign in");
                           var myobj={
                           signIn:false,
+                          responseFrom:"sign_in"
                           }
                           console.log(JSON.stringify(myobj));
                           res.send(JSON.stringify(myobj));
@@ -34,6 +35,7 @@ var sign_in= function (req,res) {
                                         console.log("password wrong");
                                         var myobj={
                                           signIn: false,
+                                          responseFrom:"sign_in"
                                         }
                                         console.log(JSON.stringify(myobj));
                                         res.end(JSON.stringify(myobj));
@@ -42,6 +44,7 @@ var sign_in= function (req,res) {
 
                                         var myobj={
                                           signIn: true,
+                                          responseFrom:"sign_in",
                                           retailerAuthTable:rows[0]
                                         }
                                         console.log(JSON.stringify(myobj));
