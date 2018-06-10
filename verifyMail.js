@@ -63,7 +63,7 @@ var verify_mail = function (req,res) {
                                           console.log(JSON.stringify(myobj));
                                           res.send(JSON.stringify(myobj));}
                                         else {
-                                          var sql="INSERT INTO `RETAILER_DATA` (`retailerId`, `enterpriseName`, `mobileNo`, `addLine1`, `addLine2`, `city`, `state`, `country`, `proprietor`, `profilePhoto`, `latLoc`, `longLoc`, `openCloseIsManual`, `shopOpenTime1`, `shopCloseTime1`, `shopOpenTime2`, `shopCloseTime2`, `currentState`, `shopPhoto`, `verifiedByTeam`, `locationVerified`, `mobileVerified`) VALUES (?, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '0', '0', '0')"
+                                          var sql="INSERT INTO `RETAILER_DATA` (`retailerId`, `enterpriseName`, `mobileNo`, `addLine1`, `addLine2`, `city`, `state`, `country`, `proprietor`, `profilePhoto`, `latLoc`, `longLoc`, `openCloseIsManual`, `shopOpenTime1`, `shopCloseTime1`, `shopOpenTime2`, `shopCloseTime2`, `currentState`, `shopPhoto`, `verifiedByTeam`, `locationVerified`, `mobileVerified`,`lastStatusUpdate`) VALUES (?, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '0', '0', '0',NULL)"
                                           con.query(sql,[retailerId],function (err,result) {
                                             if(err)console.log("error in retailer_data entry");
                                             else {
