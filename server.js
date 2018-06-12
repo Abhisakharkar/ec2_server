@@ -98,10 +98,17 @@ app.post('/update_retailer_data', jsonParser, function(req, res) {
 
   update_retailer_data = require('./updateRetailerData');
   update_retailer_data(req, res);
-
   console.log("Request from:" + req.url);
-
 });
+
+app.post('/update_auth_data', jsonParser, function(req, res) {
+  if (!req.body) return res.sendStatus(400);
+
+  update_auth_data = require('./updateAuthData');
+  update_auth_data(req, res);
+  console.log("Request from:" + req.url);
+});
+
 
 app.post('/magento_search_product', jsonParser, function(req, res) {
   if (!req.body) return res.sendStatus(400);
