@@ -20,7 +20,8 @@ var update_retailer_data = function(req, res) {
   var currentState = req.body.currentState;
   var shopPhoto = req.body.shopPhoto;
   var lastStatusUpdate = req.body.lastStatusUpdate;
-  var retailerId = req.body.retailerId;
+  var mail = req.body.mail;
+  var password = req.body.password;
 
   var con = mysql.createConnection({
     host: "localhost",
@@ -35,22 +36,36 @@ var update_retailer_data = function(req, res) {
       console.log("error in database connection");
     } else {
       console.log("Connected to database!");
-      var sql = "UPDATE `RETAILER_DATA` SET `enterpriseName` = ?, `mobileNo` = ?, `addLine1` = ?, `addLine2` = ?, `city` = ?, `state` = ?, `country` = ?, `proprietor` =?, `profilePhoto` = ?,`latLoc` = ?, `longLoc` = ?, `openCloseIsManual` =?, `shopOpenTime1` = ?, `shopCloseTime1` =?, `shopOpenTime2` = ?, `shopCloseTime2` = ?, `currentState` =?, `shopPhoto` = ?, `lastStatusUpdate` = ? WHERE `RETAILER_DATA`.`retailerId` = ?"
-      con.query(sql, [enterpriseName, mobileNo, addLine1, addLine2, city, state, country, proprietor, profilePhoto, latLoc, longLoc, openCloseIsManual, shopOpenTime1, shopCloseTime1, shopOpenTime2, shopCloseTime2, currentState, shopPhoto, lastStatusUpdate, retailerId], function(err, rows) {
+      var sql = "SELECT * FROM RETAILER_AUTH WHERE mail=? AND password=?";
+      con.query(sql, [mail, password], function(err, rows) {
         if (err) {
-          console.log(err);
+          console.log("err");
+          console.log("no user found");
+          var myobj = {
+            responseFrom: "update_retailer_data",
+            userFound:false
+          }
+          res.end(JSON.stringify(myobj));
           console.log("error in sql query in update retailer data");
-          var myobj = {
-            responseFrom: "update_retailer_data",
-            update: false
-          }
-          res.end(JSON.stringify(myobj));
         } else {
-          var myobj = {
-            responseFrom: "update_retailer_data",
-            update: true
-          }
-          res.end(JSON.stringify(myobj));
+          retailerId = rows[0].retailerId;
+          var sql = "UPDATE `RETAILER_DATA` SET `enterpriseName` = ?, `mobileNo` = ?, `addLine1` = ?, `addLine2` = ?, `city` = ?, `state` = ?, `country` = ?, `proprietor` =?, `profilePhoto` = ?,`latLoc` = ?, `longLoc` = ?, `openCloseIsManual` =?, `shopOpenTime1` = ?, `shopCloseTime1` =?, `shopOpenTime2` = ?, `shopCloseTime2` = ?, `currentState` =?, `shopPhoto` = ?, `lastStatusUpdate` = ? WHERE `RETAILER_DATA`.`retailerId` = ?"
+          con.query(sql, [enterpriseName, mobileNo, addLine1, addLine2, city, state, country, proprietor, profilePhoto, latLoc, longLoc, openCloseIsManual, shopOpenTime1, shopCloseTime1, shopOpenTime2, shopCloseTime2, currentState, shopPhoto, lastStatusUpdate, retailerId], function(err, rows) {
+            if (err) {
+              console.log(err);
+              var myobj = {
+                responseFrom: "update_retailer_data",
+                update: false
+              }
+              res.end(JSON.stringify(myobj));
+            } else {
+              var myobj = {
+                responseFrom: "update_retailer_data",
+                update: true
+              }
+              res.end(JSON.stringify(myobj));
+            }
+          });
         }
       });
     }
