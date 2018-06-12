@@ -27,6 +27,7 @@ var display_products_associated_with_retailer_id = function(req, res) {
         } else {
           console.log("retailerId" + retailerId);
           var myObj = {
+            responseFrom:"display_products_associated_with_retailer_id",
             "retailerId": retailerId,
             "items": rows
           }

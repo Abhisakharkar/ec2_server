@@ -93,11 +93,11 @@ app.post('/update_device_id', jsonParser, function(req, res) {
 
 });
 
-app.post('/update_device_id', jsonParser, function(req, res) {
+app.post('/update_retailer_data', jsonParser, function(req, res) {
   if (!req.body) return res.sendStatus(400);
 
-  update_device_id = require('./updateDeviceId');
-  update_device_id(req, res);
+  update_retailer_data = require('./updateRetailerData');
+  update_retailer_data(req, res);
 
   console.log("Request from:" + req.url);
 
