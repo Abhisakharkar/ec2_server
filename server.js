@@ -10,12 +10,31 @@ var mkdirp = require('mkdirp');
 //const app = express()
 var multer = require('multer')
 var storage = multer.diskStorage({
-  destination: (req, file, cb) => {
-    console.log(file.originalname);
-    mkdirp('imgs/' + file.originalname.split('.')[1], function(err) {
+  destination: (req, file, cb) =>  { if(file.originalname.split('.')[0]=='sp' || file.originalname.split('.')[0]=='dp'){
+      mkdirp('public/' + file.originalname.split('.')[1], function(err) {
+        if (err) {
+        console.log("error making directory");
+        }
+        else {
+          console.log("directory made in public");
+            cb(null, 'public/' + file.originalname.split('.')[1])
+        }
+      });
 
-    });
-    cb(null, 'imgs/' + file.originalname.split('.')[1])
+    }else if (file.originalname.split('.')[0]=='lp')
+     {
+      mkdirp('private/' + file.originalname.split('.')[1], function(err) {
+        if (err) {
+        console.log("error making directory");
+        }
+        else {
+          console.log("directory made in private");
+          cb(null, 'private/' + file.originalname.split('.')[1])
+        }
+      });
+
+    }
+
   },
   filename: (req, file, cb) => {
     cb(null, file.originalname.split('.')[0] + '.' + file.mimetype.split('/')[1])
