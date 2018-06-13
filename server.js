@@ -93,11 +93,19 @@ app.post('/update_device_id', jsonParser, function(req, res) {
 
 });
 
-app.post('/update_retailer_data', jsonParser, function(req, res) {
+app.post('/update_retailer_profile_data', jsonParser, function(req, res) {
   if (!req.body) return res.sendStatus(400);
 
-  update_retailer_data = require('./updateRetailerData');
-  update_retailer_data(req, res);
+  update_retailer_profile_data = require('./updateRetailerProfileData');
+  update_retailer_profile_data(req, res);
+  console.log("Request from:" + req.url);
+});
+
+app.post('/update_retailer_timing_data', jsonParser, function(req, res) {
+  if (!req.body) return res.sendStatus(400);
+
+  update_retailer_timing_data = require('./updateRetailerTimingData');
+  update_retailer_timing_data(req, res);
   console.log("Request from:" + req.url);
 });
 
