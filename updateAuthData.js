@@ -2,7 +2,6 @@ var update_auth_data = function(req, res) {
   var mysql = require('mysql');
   var mail = req.body.mail;
   var password = req.body.password;
-  var shopActPhoto = req.body.shopActPhoto;
   var shopActLicenseNo = req.body.shopActLicenseNo;
   var mandatoryData = req.body.mandatoryData;
 
@@ -32,8 +31,8 @@ var update_auth_data = function(req, res) {
 
         } else {
           var retailerId = rows[0].retailerId;
-          var sql = "UPDATE `RETAILER_AUTH` SET `shopActPhoto` = ?, `shopActLicenseNo` = ?, `mandatoryData` = ? WHERE `RETAILER_AUTH`.`retailerId` = ? ";
-          con.query(sql, [shopActPhoto, shopActLicenseNo, mandatoryData, retailerId], function(err, rows) {
+          var sql = "UPDATE `RETAILER_AUTH` SET `shopActLicenseNo` = ?, `mandatoryData` = ? WHERE `RETAILER_AUTH`.`retailerId` = ? ";
+          con.query(sql, [shopActLicenseNo, mandatoryData, retailerId], function(err, rows) {
             if (err) {
               console.log(err);
               var myobj = {

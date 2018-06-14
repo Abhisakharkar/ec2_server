@@ -35,8 +35,9 @@ var verify_mail = function(req, res) {
             res.send(JSON.stringify(myobj));
           } else {
             retailerId = rows[0].retailerId;
-            var sql = "UPDATE RETAILER_AUTH SET code = '-32565' , codeVerified = '1'  WHERE retailerId = ? ";
-            con.query(sql, [retailerId], function(err, result) {
+            var url_lp= '/private/'+retailerId+'/lp.jpeg';
+            var sql = "UPDATE RETAILER_AUTH SET code = '-32565' , codeVerified = '1' , shopActPhoto = ?  WHERE retailerId = ? ";
+            con.query(sql, [url_lp,retailerId], function(err, result) {
               if (err) {
                 var myobj = {
                   verificationStatus: true,
@@ -59,8 +60,10 @@ var verify_mail = function(req, res) {
                     console.log(JSON.stringify(myobj));
                     res.send(JSON.stringify(myobj));
                   } else {
-                    var sql = "INSERT INTO `RETAILER_DATA` (`retailerId`, `enterpriseName`, `mobileNo`, `addLine1`, `addLine2`, `city`, `state`, `country`, `proprietor`, `profilePhoto`, `latLoc`, `longLoc`, `openCloseIsManual`, `shopOpenTime1`, `shopCloseTime1`, `shopOpenTime2`, `shopCloseTime2`, `currentState`, `shopPhoto`, `verifiedByTeam`, `locationVerified`, `mobileVerified`,`lastStatusUpdate`) VALUES (?, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '0', '0', '0',NULL)"
-                    con.query(sql, [retailerId], function(err, result) {
+                    var url_dp='/public/'+retailerId+'/dp.jpeg';
+                    var url_sp= '/public/'+retailerId+'/sp.jpeg';
+                    var sql = "INSERT INTO `RETAILER_DATA` (`retailerId`, `enterpriseName`, `mobileNo`, `addLine1`, `addLine2`, `city`, `state`, `country`, `proprietor`, `profilePhoto`, `latLoc`, `longLoc`, `openCloseIsManual`, `shopOpenTime1`, `shopCloseTime1`, `shopOpenTime2`, `shopCloseTime2`, `currentState`, `shopPhoto`, `verifiedByTeam`, `locationVerified`, `mobileVerified`,`lastStatusUpdate`) VALUES (?, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, ?, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, ?, '0', '0', '0',NULL)"
+                    con.query(sql, [retailerId,url_dp,url_sp], function(err, result) {
                       if (err) console.log("error in retailer_data entry");
                       else {
                         console.log("retailer data entered");

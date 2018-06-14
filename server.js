@@ -84,16 +84,25 @@ app.post('/sign_in', jsonParser, function(req, res) {
   sign_in(req, res);
 });
 
-app.post('/add_retailer_product_id', jsonParser, function(req, res) {
+app.post('/add_retailer_product', jsonParser, function(req, res) {
   console.log("Request from:" + req.url);
   if (!req.body) return res.sendStatus(400);
 
-  add_retailer_product_id = require('./addRetailerProductId');
-  add_retailer_product_id(req, res);
+  add_retailer_product = require('./addRetailerProduct');
+  add_retailer_product(req, res);
 
 
 });
 
+app.post('/update_retailer_product', jsonParser, function(req, res) {
+  console.log("Request from:" + req.url);
+  if (!req.body) return res.sendStatus(400);
+
+  update_retailer_product = require('./updateRetailerProduct');
+  update_retailer_product(req, res);
+
+
+});
 app.post('/display_products_associated_with_retailer_id', jsonParser, function(req, res) {
   console.log("Request from:" + req.url);
   if (!req.body) return res.sendStatus(400);
