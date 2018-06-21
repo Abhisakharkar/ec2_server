@@ -156,6 +156,16 @@ app.post('/magento_search_product', jsonParser, function(req, res) {
 
 });
 
+app.post('/magento_get_attribute_with_group', jsonParser, function(req, res) {
+  if (!req.body) return res.sendStatus(400);
+
+  magento_get_attribute_with_group = require('./magentoGetAttributeWithGroup');
+  magento_get_attribute_with_group(req, res);
+
+  console.log("Request from:" + req.url);
+
+});
+
 app.post('/upload', upload.single('imageFile'), function(req, res, next) {
   // req.file is the `avatar` file
   // req.body will hold the text fields, if there were any
