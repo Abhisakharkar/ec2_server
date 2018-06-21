@@ -14,10 +14,10 @@ var magento_get_attribute_with_group = function (req,res) {
       const options = {
         authentication: {
           integration: { //from the integrations section in the magento2 backend
-            consumer_key: '1fd9w40537fff45fn3he7p6cwaunxlfa',
-            consumer_secret: '1xfxjeph6bwdulows6myruh50p9pnhbx',
-            access_token: '6jcpnxt8b12fdiqu4ssnpgc6oudqclug',
-            access_token_secret: 'mgodjg32ix9phhar6iimlcq81p0rq9l5'
+            consumer_key: '9v92qagldi60lxcjn7c07chqesc2ebfu',
+            consumer_secret: '9nodsmg9fyt5af1f0uutkah4vol7a06a',
+            access_token: '8teumvy8mdp6epueimc382f4orfwfvmp',
+            access_token_secret: 'h6hfywb5k92lyyqjsahohn4bs6wyfbac'
           }
         }
       }
