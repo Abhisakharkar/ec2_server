@@ -156,6 +156,16 @@ app.post('/magento_search_product', jsonParser, function(req, res) {
 
 });
 
+app.post('/magento_search_in_category', jsonParser, function(req, res) {
+  if (!req.body) return res.sendStatus(400);
+
+  magento_search_in_category = require('./magentoSearchInCategory');
+  magento_search_in_category(req, res);
+
+  console.log("Request from:" + req.url);
+
+});
+
 app.post('/magento_get_attribute_with_group', jsonParser, function(req, res) {
   if (!req.body) return res.sendStatus(400);
 
@@ -165,6 +175,17 @@ app.post('/magento_get_attribute_with_group', jsonParser, function(req, res) {
   console.log("Request from:" + req.url);
 
 });
+
+app.post('/magento_get_categories', jsonParser, function(req, res) {
+  if (!req.body) return res.sendStatus(400);
+
+  magento_get_categories = require('./magentoGetCategories');
+  magento_get_categories(req, res);
+
+  console.log("Request from:" + req.url);
+
+});
+
 
 app.post('/upload', upload.single('imageFile'), function(req, res, next) {
   // req.file is the `avatar` file
