@@ -23,7 +23,7 @@ var magento_get_categories = function (req,res) {
     res.contentType('application/json');
     var myObj={
       "responseFrom":"magento_get_categories",
-      "items":products
+      "items":products.items
     }
     res.send(JSON.stringify(myObj));
 
