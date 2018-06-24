@@ -45,14 +45,24 @@ var magento_get_attribute_with_group = function(req, res) {
       }
     }) //Get a list of all products
     .then(products => {
-      length=products.items.length;
-      for (var i = 0; i < products.items.length; i++) {
-        var group_id = products.items[i].attribute_group_id;
-        console.log("group id =" + group_id);
-        var name = products.items[i].attribute_group_name;
-        console.log("name =" + name);
-        get_attributes_from_group(res, name, group_id);
+      if(products.items==null){
+        var myObj={
+          "responseFrom":'magento_get_attribute_with_group',
+          "result": "no such attribute set or no groups in this set",
+          "attributes": []
+        }
+      res.end(JSON.stringify(myObj));
+      }else {
 
+        length=products.items.length;
+        for (var i = 0; i < products.items.length; i++) {
+          var group_id = products.items[i].attribute_group_id;
+          console.log("group id =" + group_id);
+          var name = products.items[i].attribute_group_name;
+          console.log("name =" + name);
+          get_attributes_from_group(res, name, group_id);
+
+        }
       }
     });
 

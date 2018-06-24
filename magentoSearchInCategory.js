@@ -35,6 +35,14 @@ var magento_search_product = function(req, res) {
         }
     }) //Get a list of all products
     .then(products => {
+      if(products.items==null){
+        var myObj={
+          "responseFrom":"magento_search_in_category",
+          "products":[]
+        }
+      res.end(JSON.stringify(myObj));
+      }else {
+
         var p_id = "";
         for (var i = 0; i < products.items.length; i++) {
           p_id += products.items[i].id;
@@ -67,6 +75,7 @@ var magento_search_product = function(req, res) {
               }
             res.end(JSON.stringify(myObj));
           })
+        }
     })
 }
 module.exports = magento_search_product;
