@@ -205,12 +205,14 @@ app.post('/magento_get_categories', jsonParser, function(req, res) {
   if (!req.body) return res.sendStatus(400);
   if(req.session.retailerId==null)
   {req.session.retailerId=5;
+  res.setHeader('Content-type','application/json');
   res.send("your next request will be authenticated");
- }else {
+}
+else {
 
   magento_get_categories = require('./magentoGetCategories');
   magento_get_categories(req, res);
-
+  res.setHeader('Content-type','application/json');
   console.log("Request from:" + req.url);
   }
 });
