@@ -1,10 +1,35 @@
 var express = require('express');
 var bodyParser = require('body-parser');
-
+var session=require('express-session');
+var MySQLStore = require('express-mysql-session')(session);
 var app = express();
 var jsonParser = bodyParser.json();
-
 var mkdirp = require('mkdirp');
+var options = {
+    host: 'localhost',
+    port: 3306,
+    user: 'root',
+    password: 'MH31eh@2964',
+    database: 'hoverBackend',
+    schema: {
+       tableName: 'RETAILER_SESSONS_TEST',
+       columnNames: {
+           session_id: 'sid',
+           expires: 'expires',
+           data: 'session',
+           retailerId:'retailerId'
+       }
+   }
+};
+var sessionStore = new MySQLStore(options);
+app.use(session({
+    store:sessionStore,
+    secret: 'supersecret',
+    cookies:{},
+    resave:false,
+    saveUninitialized:true
+  }));
+
 
 //const express = require('express')
 //const app = express()
@@ -178,12 +203,16 @@ app.post('/magento_get_attribute_with_group', jsonParser, function(req, res) {
 
 app.post('/magento_get_categories', jsonParser, function(req, res) {
   if (!req.body) return res.sendStatus(400);
+  if(req.session.retailerId==null)
+  {req.session.retailerId=5;
+  res.send("your next request will be authenticated");
+ }else {
 
   magento_get_categories = require('./magentoGetCategories');
   magento_get_categories(req, res);
 
   console.log("Request from:" + req.url);
-
+  }
 });
 
 
