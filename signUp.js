@@ -1,5 +1,6 @@
 var sign_up = function (req,res) {
   var mysql = require('mysql');
+  const jwt= require ('jsonwebtoken');
 
   var deviceId,mail,password,subsciptionDateTime,codeVerified,mandatoryDate,membership,retailerId,shopActPhoto,shopActLicenseNo;
   mail=req.body.mail;
@@ -71,13 +72,25 @@ var sign_up = function (req,res) {
 	                        }
                           else {
             		              console.log('Email sent: ' + info.response);
-                              var myobj={
-                                signUpSuccessStatus: true,
-                                mailSent:true,
-                                responseFrom:"sign_up"
+                              const data ={
+                                retailerId:result.insertId,
+                                mail:mail
                               }
-                              console.log(JSON.stringify(myobj));
-                              res.end(JSON.stringify(myobj));
+                              jwt.sign({data},'abhishek_007',(err,token)=>{
+                                if (err) {
+                                  res.send("error generating token");
+                                }else {
+                                  var myobj={
+                                    signUpSuccessStatus: true,
+                                    mailSent:true,
+                                    token:token,
+                                    responseFrom:"sign_up"
+                                  }
+                                  console.log(JSON.stringify(myobj));
+                                  res.end(JSON.stringify(myobj));
+                                }
+                              });
+
           		            }
         	             });
                      }

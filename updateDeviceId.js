@@ -1,6 +1,6 @@
-var update_device_id = function(req, res) {
+var update_device_id = function(req, res,authData) {
   var mysql = require('mysql');
-  var retailerId = req.body.retailerId;
+  var retailerId = authData.data.retailerId;
   var deviceId = req.body.deviceId;
 
   var con = mysql.createConnection({
