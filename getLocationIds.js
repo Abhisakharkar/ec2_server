@@ -38,6 +38,7 @@ rp(options)
     var googleSubLocality2Id;
     var localityId;
     var localityTier;
+    var myObj;
     if (length==3) {
       locality=api.results[2].formatted_address;
       googleLocalityId=api.results[2].place_id;
@@ -70,49 +71,42 @@ rp(options)
       if (err) {
         console.log("error in database connect");
       }else {
-        con.query("SELECT `localityId`, `tier` FROM `LOCALITY_ID` WHERE `googleLocalityId` = ? ",[googleLocalityId]  , function(err, rows){
+        con.query("SELECT `localityId`, `tier`, `locality`, `wholesaleTier` FROM `LOCALITY_ID` WHERE `googleLocalityId` = ? ",[googleLocalityId]  , function(err, rows){
           if(err) {
             console.log(err);
             console.log("error in locality search");
           }
           else {
             get_sub_locality_1 = require('./getSubLocality1');
+            myObj.length=length;
             if (rows.length) {
-              localityId=rows[0].localityId;
-              localityTier=rows[0].tier;
+              myObj.localityData=rows[0];
               if (length>1) {
-                get_sub_locality_1(res,con,subLocality1,googleSubLocality1Id,subLocality2,googleSubLocality2Id,localityId,length,localityTier);
+                get_sub_locality_1(res,con,myObj,subLocality1,googleSubLocality1Id,subLocality2,googleSubLocality2Id);
               }
               else {
-                var myObj={
-                  status:'ok',
-                  length:length,
-                  localityId:localityId,
-                  localityTier:localityTier
-                }
                 console.log(myObj);
                 res.end(JSON.stringify(myObj));
               }
             }
             else {
-              con.query("INSERT INTO `LOCALITY_ID` (`localityId`, `locality`, `googleLocalityId`, `tier`) VALUES (NULL, ?, ?, '0')",[locality,googleLocalityId]  , function(err, rows1){
+              con.query("INSERT INTO `LOCALITY_ID` (`localityId`, `locality`, `googleLocalityId`, `tier`, `wholesaleTier`) VALUES (NULL, ?, ?, '0', '0')",[locality,googleLocalityId]  , function(err, rows1){
                 if(err) {
                   console.log(err);
                   console.log("error in locality insertion");
                 }
                 else {
-                  localityId=rows1.insertId;
-                  localityTier=0;
+                  var localityData={
+                    localityId:rows1.insertId,
+                    tier:0,
+                    locality:locality,
+                    wholesaleTier:0
+                  }
+                  myObj.localityData=localityData;
                   if (length>1) {
-                    get_sub_locality_1(res,con,subLocality1,googleSubLocality1Id,subLocality2,googleSubLocality2Id,localityId,length,localityTier);
+                    get_sub_locality_1(res,con,myObj,subLocality1,googleSubLocality1Id,subLocality2,googleSubLocality2Id);
                   }
                   else {
-                    var myObj={
-                      status:'ok',
-                      length:length,
-                      localityId:localityId,
-                      localityTier:localityTier
-                    }
                     console.log(myObj);
                     res.end(JSON.stringify(myObj));
                   }
