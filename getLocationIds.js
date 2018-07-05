@@ -81,7 +81,7 @@ rp(options)
             myObj.length=length;
             if (rows.length) {
               myObj.localityData=rows[0];
-              if (length>1) {
+              if (myObj.length>1) {
                 get_sub_locality_1(res,con,myObj,subLocality1,googleSubLocality1Id,subLocality2,googleSubLocality2Id);
               }
               else {
@@ -103,7 +103,7 @@ rp(options)
                     wholesaleTier:0
                   }
                   myObj.localityData=localityData;
-                  if (length>1) {
+                  if (myObj.length>1) {
                     get_sub_locality_1(res,con,myObj,subLocality1,googleSubLocality1Id,subLocality2,googleSubLocality2Id);
                   }
                   else {

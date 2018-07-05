@@ -8,7 +8,7 @@ var get_sub_locality_1=function (res,con,myObj,subLocality1,googleSubLocality1Id
       get_sub_locality_2=require('./getSubLocality2');
       if (rows.length) {
         myObj.subLocality1Data=rows[0];
-        if (length>2) {
+        if (myObj.length>2) {
           get_sub_locality_2(res,con,myObj,subLocality2,googleSubLocality2Id);
         }
         else {
@@ -30,7 +30,7 @@ var get_sub_locality_1=function (res,con,myObj,subLocality1,googleSubLocality1Id
               wholesaleTier:0
             }
             myObj.subLocality1Data=subLocality1Data;
-            if (length>2) {
+            if (myObj.length>2) {
               get_sub_locality_2(res,con,myObj,subLocality2,googleSubLocality2Id);
             }
             else {
