@@ -38,7 +38,7 @@ rp(options)
     var googleSubLocality2Id;
     var localityId;
     var localityTier;
-    var myObj;
+    var myObj={};
     if (length==3) {
       locality=api.results[2].formatted_address;
       googleLocalityId=api.results[2].place_id;
