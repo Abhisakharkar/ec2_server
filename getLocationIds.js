@@ -27,9 +27,9 @@ var options = {
     json: true // Automatically parses the JSON string in the response
 };
 
-rp(options)
-.then(function (api) {
-    var length = api.results.length;
+rp(options).then(function (api) {
+    var apiResultLength = api.results.length;
+    var length;
     var locality;
     var googleLocalityId;
     var subLocality1;
@@ -39,33 +39,58 @@ rp(options)
     var localityId;
     var localityTier;
     var myObj={};
-    if (length==3) {
-      locality=api.results[2].formatted_address;
-      googleLocalityId=api.results[2].place_id;
-      subLocality1=api.results[1].address_components[0].long_name;
-      googleSubLocality1Id=api.results[1].place_id;
-      subLocality2=api.results[0].address_components[0].long_name;
-      googleSubLocality2Id=api.results[0].place_id;
-    }
-    else if (length==2) {
-      locality=api.results[1].formatted_address;
-      googleLocalityId=api.results[1].place_id;
-      subLocality1=api.results[0].address_components[0].long_name;
-      googleSubLocality1Id=api.results[0].place_id;
-    }
-    else if (length==1) {
-      locality=api.results[0].formatted_address;
-      googleLocalityId=api.results[0].place_id;
+    var localityArray=[];
+    var subLocality1Array=[];
+    var subLocality2Array=[];
+    if (apiResultLength) {
+      for (var i=(apiResultLength-1);i>-1;i--){
+        var typesLength=api.results[i].types.length;
+        for(var j=0;j<typesLength;j++){
+          value=api.results[i].types[j];
+          if (value=='locality') {
+            localityArray.push(i);
+          }
+          else if (value=='sublocality_level_1') {
+            subLocality1Array.push(i);
+          }
+          else if (value=='sublocality_level_2') {
+            subLocality2Array.push(i);
+          }
+        }
+      }
     }
     else {
-      var myObj={
+      myObj={
         status:'failed no address for this coordinate'
       }
       console.log(myObj);
       res.end(JSON.stringify(myObj));
-                 //send wrong coordinates
     }
-    console.log(googleLocalityId);
+    if (localityArray[0]!=null && subLocality1Array[0]!=null && subLocality2Array[0]!=null) {
+      length=3;
+      locality=api.results[localityArray[0]].formatted_address;
+      googleLocalityId=api.results[localityArray[0]].place_id;
+      subLocality1=api.results[subLocality1Array[0]].address_components[0].long_name;
+      googleSubLocality1Id=api.results[subLocality1Array[0]].place_id;
+      subLocality2=api.results[subLocality2Array[0]].address_components[0].long_name;
+      googleSubLocality2Id=api.results[subLocality2Array[0]].place_id;
+    }else if (localityArray[0]!=null && subLocality1Array[0]!=null) {
+      length=2;
+      locality=api.results[localityArray[0]].formatted_address;
+      googleLocalityId=api.results[localityArray[0]].place_id;
+      subLocality1=api.results[subLocality1Array[0]].address_components[0].long_name;
+      googleSubLocality1Id=api.results[subLocality1Array[0]].place_id;
+    }else if (localityArray[0]!=null) {
+      length=1;
+      locality=api.results[localityArray[0]].formatted_address;
+      googleLocalityId=api.results[localityArray[0]].place_id;
+    }else {
+      myObj={
+        status:'failed no address for this coordinate no locality found'
+      }
+      console.log(myObj);
+      res.end(JSON.stringify(myObj));
+    }
 
     con.connect(function (err) {
       if (err) {
@@ -126,7 +151,7 @@ rp(options)
 }
 module.exports=get_location_id;
 
-//https://maps.googleapis.com/maps/api/geocode/json?latlng=19.848301,79.345909&result_type=locality|sublocality_level_1|sublocality_level_2&key=AIzaSyD936hIXMiYNq60MZ2mqXXuS_2TsM38Q-U
+//https://maps.googleapis.com/maps/api/geocode/json?latlng=19.132997,72.842140&result_type=locality|sublocality_level_1|sublocality_level_2&key=AIzaSyD936hIXMiYNq60MZ2mqXXuS_2TsM38Q-U
 
 
 //
