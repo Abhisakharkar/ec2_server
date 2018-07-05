@@ -1,4 +1,4 @@
-var get_location_id=function (req, res ,authData) {
+var get_location_id=function (req, res) {
   var latloc=req.body.latloc;
   var longloc=req.body.longloc;
   var latlngloc=latloc+","+longloc;

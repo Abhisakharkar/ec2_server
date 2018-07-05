@@ -107,17 +107,11 @@ app.post('/resend_verification_code', jsonParser, verifyToken, function(req, res
   });
 });
 
-app.post('/get_location_ids', jsonParser, verifyToken, function(req, res) {
+app.post('/get_location_ids', jsonParser, function(req, res) {
   console.log("Request from:" + req.url);
   if (!req.body) return res.sendStatus(400);
-  jwt.verify(req.token,'abhishek_007',(err,authData)=>{
-    if (err) {
-      res.sendStatus(403);
-    }else {
       get_location_ids = require('./getLocationIds');
-      get_location_ids(req, res, authData);
-    }
-  });
+      get_location_ids(req, res);
 });
 
 

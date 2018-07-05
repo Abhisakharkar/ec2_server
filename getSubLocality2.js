@@ -38,7 +38,7 @@ var get_sub_locality_2=function (res,con,subLocality2,googleSubLocality2Id,local
               localityId:localityId,
               localityTier:localityTier,
               subLocality1Id:subLocality1Id,
-              subLocality1Tier:subLocality1tier,
+              subLocality1Tier:subLocality1Tier,
               subLocality2Id:subLocality2Id,
               subLocality2Tier:subLocality2Tier
             }
