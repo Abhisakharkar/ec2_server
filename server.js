@@ -63,6 +63,13 @@ app.post('/sign_up', jsonParser, function(req, res) {
   sign_up(req, res);
 });
 
+app.post('/get_retailers_near_me', jsonParser, function(req, res) {
+  console.log("Request from:" + req.url);
+  if (!req.body) return res.sendStatus(400);
+  get_retailers_near_me = require('./getRetailersNearMe');
+  get_retailers_near_me(req, res);
+});
+
 app.post('/sign_in', jsonParser, function(req, res) {
   console.log("Request from:" + req.url);
   if (!req.body) return res.sendStatus(400);
