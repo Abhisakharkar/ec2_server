@@ -1,16 +1,12 @@
 var get_location_id=function (req, res) {
   var latloc=req.body.latloc;
   var longloc=req.body.longloc;
+  if (latloc==null || longloc==null){
+    res.sendstatus(400);
+  }
   var latlngloc=latloc+","+longloc;
 
-var mysql = require('mysql');
-var con = mysql.createConnection({
-  host: "localhost",
-  user: "root",
-  password: "MH31eh@2964",
-  database: "hoverBackend"
-});
-
+var con= require('./databaseOptions')
 var apiKey='AIzaSyD936hIXMiYNq60MZ2mqXXuS_2TsM38Q-U';
 
 var rp = require('request-promise');
@@ -91,7 +87,12 @@ rp(options).then(function (api) {
       console.log(myObj);
       res.end(JSON.stringify(myObj));
     }
-
+    console.log("locality:"locality);
+    console.log("googleLocalityId:"googleLocalityId);
+    console.log("subLocality1:"subLocality1);
+    console.log("googleSubLocality1Id:"googleSubLocality1Id);
+    console.log("subLocality2:"subLocality2);
+    console.log("googleSubLocality2Id:"googleSubLocality2Id);
     con.connect(function (err) {
       if (err) {
         console.log("error in database connect");
