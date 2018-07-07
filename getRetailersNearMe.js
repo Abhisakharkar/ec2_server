@@ -26,7 +26,7 @@ var get_retailers_near_me = function (req,res) {
           var myObj={
             retailers:rows
           }
-          res.send(JSON.stringify(myObj));
+          res.end(JSON.stringify(myObj));
         }
       });
     }
