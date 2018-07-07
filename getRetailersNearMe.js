@@ -4,11 +4,6 @@ var get_retailers_near_me = function (req,res) {
   if (req.body.localityId==null){
     res.sendStatus(404);
   }
-  con.connect(function(err) {
-    if (err) {
-      console.log(err);
-      console.log("error in database connection");
-    } else {
       console.log("Connected to database!");
       makeQueryForGetRetailerNearMe=require('./makeQueryForGetRetailerNearMe');
       var queryData=makeQueryForGetRetailerNearMe.makeQuery(req);
@@ -29,7 +24,5 @@ var get_retailers_near_me = function (req,res) {
           res.end(JSON.stringify(myObj));
         }
       });
-    }
-  });
 }
 module.exports=get_retailers_near_me;
