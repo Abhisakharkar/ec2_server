@@ -1,8 +1,6 @@
-var add_retailer_product = function(req, res) {
+var add_retailer_product = function(req, res, authData) {
 
-
-  
-  var retailerId = req.body.retailerId;
+  var retailerId = authData.data.retailerId;
   var productId = req.body.productId;
   var price = req.body.price;
   var description = req.body.description;
@@ -10,26 +8,14 @@ var add_retailer_product = function(req, res) {
   var availability = req.body.availability;
   var star = req.body.star;
   var textField = req.body.textField;
-  if(availability==null)availability=0;
-  if (star==null) star=0;
+  if (availability == null) availability = 0;
+  if (star == null) star = 0;
 
-  var mysql = require('mysql');
+  var con = require('./databaseOptions')
 
-  var con = mysql.createConnection({
-    host: "localhost",
-    user: "root",
-    password: "MH31eh@2964",
-    database: "hoverBackend"
-  });
-
-
-
-  con.connect(function(err) {
-    if (err) console.log(err);
-    console.log("Connected!");
-    var sql = "INSERT INTO `RET_PROD_ID` (`retailerId`, `productId`, `price`, `description`, `photo`, `availability`, `star`, `textField`) VALUES (?,?,?,?,?,?,?,?)";
-    con.query(sql, [retailerId, productId, price, description, photo, availability, star, textField], function(err, result) {
-      if (err){
+  var sql = "INSERT INTO `RET_PROD_ID` (`retailerId`, `productId`, `price`, `description`, `photo`, `availability`, `star`, `textField`) VALUES (?,?,?,?,?,?,?,?)";
+  con.query(sql, [retailerId, productId, price, description, photo, availability, star, textField], function(err, result) {
+    if (err) {
       console.log(err);
       var myObj = {
         insertSuccess: false,
@@ -38,8 +24,7 @@ var add_retailer_product = function(req, res) {
       }
       res.end(JSON.stringify(myObj));
 
-      }
-      else {
+    } else {
       console.log("1 record inserted in RET_PROD_ID table");
       var myObj = {
         insertSuccess: true,
@@ -48,12 +33,9 @@ var add_retailer_product = function(req, res) {
       }
       res.end(JSON.stringify(myObj));
 
-      }
+    }
 
-    });
   });
-
-
 }
 
 module.exports = add_retailer_product;
