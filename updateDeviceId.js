@@ -1,54 +1,49 @@
-var update_device_id = function(req, res,authData) {
-  var mysql = require('mysql');
+var update_device_id = function(req, res, authData) {
   var retailerId = authData.data.retailerId;
   var deviceId = req.body.deviceId;
+  if (deviceId==null) {
+    res.end("send device id");
+  }
 
-  var con = mysql.createConnection({
-    host: "localhost",
-    user: "root",
-    password: "MH31eh@2964",
-    database: "hoverBackend"
-  });
+  var con = require('./databaseOptions')
 
-  con.connect(function(err) {
-      if (err) {
-        console.log(err);
-        console.log("error in database connection");
-      } else {
-        console.log("Connected to database!");
-        var sql = "UPDATE `RETAILER_AUTH` SET `deviceId` = ? WHERE `RETAILER_AUTH`.`retailerId` = ? ";
-        con.query(sql, [deviceId, retailerId], function(err, result) {
-          if (err) {
-            console.log(err);
-            console.log("error in device id update");
-            var myobj = {
+  var sql = "UPDATE `RETAILER_AUTH` SET `deviceId` = ? WHERE `RETAILER_AUTH`.`retailerId` = ? ";
+  con.query(sql, [deviceId, retailerId], function(err, result) {
+    if (err) {
+      console.log(err);
+      console.log("error in device id update");
+      var myobj = {
 
-              update: false
-            }
-            res.send(JSON.stringify(myobj));
-          } else {
-            console.log("device id updated");
-            var sql = "SELECT * FROM `RETAILER_AUTH` WHERE `RETAILER_AUTH`.`retailerId` = ? ";
-            con.query(sql, [retailerId], function(err, rows) {
-              if (err) {
-                console.log(err);
-                res.send("error");
-              } else {
-                var myobj = {
-                  signIn: true,
-                  deviceIdUpdate: true,
-                  responseFrom: "sign_in", // also  kept same for sign in
-                  retailerAuthTable: rows[0]
-                }
-                res.send(JSON.stringify(myobj));
-              }
-            }); // select retailer from retailer_auth
-          }
-
-        }); // update device id
+        update: false
       }
-    });
-
-
+      res.send(JSON.stringify(myobj));
+    } else {
+      console.log("device id updated");
+      var sql = "SELECT * FROM `RETAILER_AUTH` WHERE `RETAILER_AUTH`.`retailerId` = ? ";
+      con.query(sql, [retailerId], function(err, rows) {
+        if (err) {
+          console.log(err);
+          res.send("error");
+        } else {
+          var myobj = {
+            signIn: true,
+            deviceIdUpdate: true,
+            responseFrom: "sign_in", // also  kept same for sign in
+            retailerAuthTable:{
+              retailerId:rows[0].retailerId,
+              membership:rows[0].membership,
+              subscriptionDateTime:rows[0].subscriptionDateTime,
+              shopActPhoto:rows[0].shopActPhoto,
+              shopActLicenseNo:rows[0].shopActLicenseNo,
+              codeVerified:rows[0].codeVerified,
+              mandatoryData:rows[0].mandatoryData,
+              deviceId:rows[0].deviceId,
+            }
+          }
+          res.send(JSON.stringify(myobj));
+        }
+      }); // select retailer from retailer_auth
+    }
+  }); // update device id
 }
 module.exports = update_device_id;

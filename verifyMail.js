@@ -22,7 +22,7 @@ var verify_mail = function(req, res, authData) {
       } else {
         var url_lp = '/private/' + retailerId + '/lp.jpeg';
         var sql = "UPDATE RETAILER_AUTH SET code = '-32565' , codeVerified = '1' , shopActPhoto = ?  WHERE retailerId = ? ";
-        con.query(sql, [url_lp, retailerId], function(err, result) {
+        con.query(sql, [url_lp, retailerId], function(err, result2) {
           if (err) {
             var myobj = {
               verificationStatus: true,
@@ -48,7 +48,7 @@ var verify_mail = function(req, res, authData) {
                 var url_dp = '/public/' + retailerId + '/dp.jpeg';
                 var url_sp = '/public/' + retailerId + '/sp.jpeg';
                 var sql = "INSERT INTO `RETAILER_DATA` (`retailerId`, `enterpriseName`, `mobileNo`, `addLine1`, `sublocality1Id`, `localityId`, `proprietor`, `profilePhoto`, `latLoc`, `longLoc`, `deliveryStatus`, `maxDeliveryDistanceInMeters`, `maxFreeDeliveryDistanceInMeters`, `chargePerHalfKiloMeterForDelivery`, `minAmountForFreeDelivery`, `openCloseIsManual`, `shopOpenTime1`, `shopCloseTime1`, `shopOpenTime2`, `shopCloseTime2`, `currentState`, `shopPhoto`, `verifiedByTeam`, `locationVerified`, `mobileVerified`,`lastStatusUpdate`) VALUES (?, NULL, NULL, NULL, NULL, NULL, NULL, ?, NULL, NULL, '0', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, ?, '0', '0', '0',NULL)"
-                con.query(sql, [retailerId, url_dp, url_sp], function(err, result) {
+                con.query(sql, [retailerId, url_dp, url_sp], function(err, result1) {
                   if (err) console.log("error in retailer_data entry");
                   else {
                     console.log("retailer data entered");
