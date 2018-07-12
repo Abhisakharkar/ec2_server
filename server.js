@@ -13,24 +13,24 @@ var multer = require('multer')
 var storage = multer.diskStorage({
   destination: (req, file, cb) =>  {
     if(file.originalname.split('.')[0]=='sp' || file.originalname.split('.')[0]=='dp'){
-      mkdirp('/var/www/html/public/' + retailerIdForImage, function(err) {
+      mkdirp('/var/www/html/rt/public/' + retailerIdForImage, function(err) {
         if (err) {
         console.log("error making directory");
         }
         else {
           console.log("directory made in public");
-            cb(null, '/var/www/html/public/' + retailerIdForImage)
+            cb(null, '/var/www/html/rt/public/' + retailerIdForImage)
         }
       });
     }else if (file.originalname.split('.')[0]=='lp')
      {
-      mkdirp('/var/www/html/private/' + retailerIdForImage, function(err) {
+      mkdirp('/var/www/html/rt/private/' + retailerIdForImage, function(err) {
         if (err) {
         console.log("error making directory");
         }
         else {
           console.log("directory made in private");
-          cb(null, '/var/www/html/private/' + retailerIdForImage)
+          cb(null, '/var/www/html/rt/private/' + retailerIdForImage)
         }
       });
     }
@@ -68,6 +68,7 @@ app.post('/get_retailers_near_me', jsonParser, function(req, res) {
   if (!req.body) return res.sendStatus(400);
   get_retailers_near_me = require('./getRetailersNearMe');
   get_retailers_near_me(req, res);
+
 });
 
 app.post('/sign_in', jsonParser, function(req, res) {
@@ -445,7 +446,9 @@ app.post('/magento_get_category', jsonParser, function(req, res) {
 });
 
 function verifyToken(req,res,next) {
-  const bearerHeader =req.headers['authorization'];
+  console.log(req.headers.Authorization);
+  console.log(req.headers.authorization);
+  const bearerHeader =req.headers['Authorization'];
   if (typeof bearerHeader !== 'undefined') {
     const bearer = bearerHeader.split(' ');
     const bearerToken= bearer[1];
@@ -457,7 +460,9 @@ function verifyToken(req,res,next) {
 }
 
 function verifyForImage(req,res,next) {
-  const bearerHeader =req.headers['authorization'];
+  console.log(req.headers.Authorization);
+  console.log(req.headers.authorization);
+  const bearerHeader =req.headers['Authorization'];
   if (typeof bearerHeader !== 'undefined') {
    const bearer = bearerHeader.split(' ');
    const bearerToken= bearer[1];
