@@ -3,6 +3,7 @@ var sign_up = function(req, res) {
 
   var deviceId, mail, password, subsciptionDateTime, codeVerified, mandatoryDate, membership, retailerId, shopActPhoto, shopActLicenseNo;
   mail = req.body.mail;
+  console.log(mail);
   password = req.body.password;
   deviceId = req.body.deviceId;
   subscriptionDateTime = req.body.subscriptionDateTime;
