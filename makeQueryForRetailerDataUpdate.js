@@ -74,16 +74,16 @@ var data;
       count++;
     }
   }
-  if (req.body.sublocality1Id!=null) {
+  if (req.body.subLocality1Id!=null) {
     if (updateVariables==null) {
-      updateVariables='sublocality1Id = ?';
-      variablesValues.push(req.body.sublocality1Id);
-      updateData.push({'sublocality1Id':req.body.sublocality1Id});
+      updateVariables='subLocality1Id = ?';
+      variablesValues.push(req.body.subLocality1Id);
+      updateData.push({'subLocality1Id':req.body.subLocality1Id});
       count++;
     }else {
-      updateVariables+=', sublocality1Id = ?';
-      variablesValues.push(req.body.sublocality1Id);
-      updateData.push({'sublocality1Id':req.body.sublocality1Id});
+      updateVariables+=', subLocality1Id = ?';
+      variablesValues.push(req.body.subLocality1Id);
+      updateData.push({'subLocality1Id':req.body.subLocality1Id});
       count++;
     }
   }
@@ -100,29 +100,29 @@ var data;
       count++;
     }
   }
-  if (req.body.latloc!=null) {
+  if (req.body.latLoc!=null) {
     if (updateVariables==null) {
-      updateVariables='latloc = ?';
-      variablesValues.push(req.body.latloc);
-      updateData.push({'latloc':req.body.latloc});
+      updateVariables='latLoc = ?';
+      variablesValues.push(req.body.latLoc);
+      updateData.push({'latLoc':req.body.latLoc});
       count++;
     }else {
-      updateVariables+=', latloc = ?';
-      variablesValues.push(req.body.latloc);
-      updateData.push({'latloc':req.body.latloc});
+      updateVariables+=', latLoc = ?';
+      variablesValues.push(req.body.latLoc);
+      updateData.push({'latLoc':req.body.latLoc});
       count++;
     }
   }
-  if (req.body.longloc!=null) {
+  if (req.body.longLoc!=null) {
     if (updateVariables==null) {
-      updateVariables='longloc = ?';
-      variablesValues.push(req.body.longloc);
-      updateData.push({'longloc':req.body.longloc});
+      updateVariables='longLoc = ?';
+      variablesValues.push(req.body.longLoc);
+      updateData.push({'longLoc':req.body.longLoc});
       count++;
     }else {
-      updateVariables+=', longloc = ?';
-      variablesValues.push(req.body.longloc);
-      updateData.push({'longloc':req.body.longloc});
+      updateVariables+=', longLoc = ?';
+      variablesValues.push(req.body.longLoc);
+      updateData.push({'longLoc':req.body.longLoc});
       count++;
     }
   }
