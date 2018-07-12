@@ -1,5 +1,6 @@
 var update_device_id = function(req, res, authData) {
   var retailerId = authData.data.retailerId;
+  var token= req.token;
   var deviceId = req.body.deviceId;
   if (deviceId==null) {
     res.end("send device id");
@@ -29,6 +30,7 @@ var update_device_id = function(req, res, authData) {
             signIn: true,
             deviceIdUpdate: true,
             responseFrom: "sign_in", // also  kept same for sign in
+            token:token,
             retailerAuthTable:{
               retailerId:rows[0].retailerId,
               membership:rows[0].membership,
