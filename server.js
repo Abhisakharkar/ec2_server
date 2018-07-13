@@ -36,7 +36,8 @@ var storage = multer.diskStorage({
     }
   },
   filename: (req, file, cb) => {
-    cb(null, file.originalname.split('.')[1] + '.' + file.mimetype.split('/')[1])
+    //cb(null, file.originalname.split('.')[1] + '.' + file.mimetype.split('/')[1])
+    cb(null, file.originalname.split('.')[1] + '.jpeg' )    
   }
 });
 var upload = multer({
