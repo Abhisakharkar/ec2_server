@@ -43,7 +43,7 @@ var upload = multer({
   storage: storage
 })
 
-app.post('/upload',verifyForImage,upload.single('imageFile'), function(req, res, next) {
+app.post('/upload',verifyForImage,upload.single('imageFile'), function(req, res) {
   retailerIdForImage=null;
   res.send('Image Saved!');
 });
