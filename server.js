@@ -12,7 +12,7 @@ var retailerIdForImage;
 var multer = require('multer')
 var storage = multer.diskStorage({
   destination: (req, file, cb) =>  {
-    if(file.originalname.split('.')[0]=='sp' || file.originalname.split('.')[0]=='dp'){
+    if(file.originalname.split('.')[1]=='sp' || file.originalname.split('.')[1]=='dp'){
       mkdirp('/var/www/html/rt/public/' + retailerIdForImage, function(err) {
         if (err) {
         console.log("error making directory");
@@ -22,7 +22,7 @@ var storage = multer.diskStorage({
             cb(null, '/var/www/html/rt/public/' + retailerIdForImage)
         }
       });
-    }else if (file.originalname.split('.')[0]=='lp')
+    }else if (file.originalname.split('.')[1]=='lp')
      {
       mkdirp('/var/www/html/rt/private/' + retailerIdForImage, function(err) {
         if (err) {
@@ -36,14 +36,14 @@ var storage = multer.diskStorage({
     }
   },
   filename: (req, file, cb) => {
-    cb(null, file.originalname.split('.')[0] + '.' + file.mimetype.split('/')[1])
+    cb(null, file.originalname.split('.')[1] + '.' + file.mimetype.split('/')[1])
   }
 });
 var upload = multer({
   storage: storage
 })
 
-app.post('/upload',verifyForImage,upload.single('imageFile'), function(req, res) {
+app.post('/upload',verifyForImage,upload.single('imageFile'), function(req, res, next) {
   retailerIdForImage=null;
   res.send('Image Saved!');
 });
@@ -461,7 +461,6 @@ function verifyToken(req,res,next) {
 function verifyForImage(req,res,next) {
 
   const bearerHeader =req.headers['authorization'];
-  console.log(bearerHeader);
   if (typeof bearerHeader !== 'undefined') {
    const bearer = bearerHeader.split(' ');
    const bearerToken= bearer[1];
@@ -471,6 +470,7 @@ function verifyForImage(req,res,next) {
         res.sendStatus(403);
       }else {
         retailerIdForImage=authData.data.retailerId;
+        console.log(retailerIdForImage);
         next();
       }
     });
