@@ -1,7 +1,7 @@
 var update_full_retailer_data = function(req, res, authData) {
   var retailerId = authData.data.retailerId;
-  if (req.body.mandatoryData!=null && req.body.shopActLicenseNo!=null){
   var con = require('./databaseOptions')
+  if (req.body.mandatoryData!=null && req.body.shopActLicenseNo!=null){
   var insertInAuth=false;
     insertInAuth=true;
   }
