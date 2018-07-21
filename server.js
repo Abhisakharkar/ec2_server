@@ -37,7 +37,7 @@ var storage = multer.diskStorage({
   },
   filename: (req, file, cb) => {
     //cb(null, file.originalname.split('.')[1] + '.' + file.mimetype.split('/')[1])
-    cb(null, file.originalname.split('.')[1] + '.jpeg' )    
+    cb(null, file.originalname.split('.')[1] + '.jpeg' )
   }
 });
 var upload = multer({
@@ -253,6 +253,24 @@ app.post('/magento_get_attribute_with_group', jsonParser, function(req, res) {
   magento_get_attribute_with_group = require('./magentoGetAttributeWithGroup');
   magento_get_attribute_with_group(req, res);
 
+  console.log("Request from:" + req.url);
+
+});
+
+app.post('/magento_get_product_in_category', jsonParser, function(req, res) {
+  if (!req.body) return res.sendStatus(400);
+
+  magento_get_product_in_category = require('./magentoGetProductInCategory');
+  magento_get_product_in_category(req, res);
+  console.log("Request from:" + req.url);
+
+});
+
+app.post('/magento_get_product_with_ids', jsonParser, function(req, res) {
+  if (!req.body) return res.sendStatus(400);
+
+  magento_get_product_with_ids = require('./magentoGetProductWithIds');
+  magento_get_product_with_ids(req, res);
   console.log("Request from:" + req.url);
 
 });
