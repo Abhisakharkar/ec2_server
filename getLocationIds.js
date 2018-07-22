@@ -3,9 +3,9 @@ var get_location_id = function(req, res) {
   var longloc = req.body.longloc;
   if (latloc == null || longloc == null) {
     res.sendstatus(400);
-  }
+  }else {
   var latlngloc = latloc + "," + longloc;
-
+  console.log(latlngloc);
   var con = require('./databaseOptions')
   var apiKey = 'AIzaSyD936hIXMiYNq60MZ2mqXXuS_2TsM38Q-U';
 
@@ -24,73 +24,67 @@ var get_location_id = function(req, res) {
   };
 
   rp(options).then(function(api) {
-      var apiResultLength = api.results.length;
-      var length;
-      var locality;
-      var googleLocalityId;
-      var subLocality1;
-      var googleSubLocality1Id;
-      var subLocality2;
-      var googleSubLocality2Id;
-      var localityId;
-      var localityTier;
-      var myObj = {};
-      var localityArray = [];
-      var subLocality1Array = [];
-      var subLocality2Array = [];
-      if (apiResultLength) {
-        for (var i = (apiResultLength - 1); i > -1; i--) {
-          var typesLength = api.results[i].types.length;
-          for (var j = 0; j < typesLength; j++) {
-            value = api.results[i].types[j];
-            if (value == 'locality') {
-              localityArray.push(i);
-            } else if (value == 'sublocality_level_1') {
-              subLocality1Array.push(i);
-            } else if (value == 'sublocality_level_2') {
-              subLocality2Array.push(i);
-            }
+    var apiResultLength = api.results.length;
+    var length=0;
+    var locality;
+    var googleLocalityId;
+    var subLocality1;
+    var googleSubLocality1Id;
+    var subLocality2;
+    var googleSubLocality2Id;
+    var localityId;
+    var localityTier;
+    var myObj = {};
+    var localityArray = [];
+    var subLocality1Array = [];
+    var subLocality2Array = [];
+    if (apiResultLength) {
+      for (var i = (apiResultLength - 1); i > -1; i--) {
+        var typesLength = api.results[i].types.length;
+        for (var j = 0; j < typesLength; j++) {
+          value = api.results[i].types[j];
+          if (value == 'locality') {
+            localityArray.push(i);
+          } else if (value == 'sublocality_level_1') {
+            subLocality1Array.push(i);
+          } else if (value == 'sublocality_level_2') {
+            subLocality2Array.push(i);
           }
         }
-      } else {
-        myObj = {
-          status: 'failed no address for this coordinate'
-        }
-        console.log(myObj);
-        res.end(JSON.stringify(myObj));
       }
-      if (localityArray[0] != null && subLocality1Array[0] != null && subLocality2Array[0] != null) {
-        length = 3;
-        locality = api.results[localityArray[0]].formatted_address;
-        googleLocalityId = api.results[localityArray[0]].place_id;
-        subLocality1 = api.results[subLocality1Array[0]].address_components[0].long_name;
-        googleSubLocality1Id = api.results[subLocality1Array[0]].place_id;
-        subLocality2 = api.results[subLocality2Array[0]].address_components[0].long_name;
-        googleSubLocality2Id = api.results[subLocality2Array[0]].place_id;
-      } else if (localityArray[0] != null && subLocality1Array[0] != null) {
-        length = 2;
-        locality = api.results[localityArray[0]].formatted_address;
-        googleLocalityId = api.results[localityArray[0]].place_id;
-        subLocality1 = api.results[subLocality1Array[0]].address_components[0].long_name;
-        googleSubLocality1Id = api.results[subLocality1Array[0]].place_id;
-      } else if (localityArray[0] != null) {
-        length = 1;
-        locality = api.results[localityArray[0]].formatted_address;
-        googleLocalityId = api.results[localityArray[0]].place_id;
-      } else {
-        myObj = {
-          status: 'failed no address for this coordinate no locality found'
-        }
-        console.log(myObj);
-        res.end(JSON.stringify(myObj));
+    } else {
+      myObj = {
+        status: 'failed no address for this coordinate'
       }
-      // console.log("locality:"locality);
-      // console.log("googleLocalityId:"googleLocalityId);
-      // console.log("subLocality1:"subLocality1);
-      // console.log("googleSubLocality1Id:"googleSubLocality1Id);
-      // console.log("subLocality2:"subLocality2);
-      // console.log("googleSubLocality2Id:"googleSubLocality2Id);
-
+      console.log(myObj);
+      res.end(JSON.stringify(myObj));
+    }
+    if (localityArray[0] != null && subLocality1Array[0] != null && subLocality2Array[0] != null) {
+      length = 3;
+      locality = api.results[localityArray[0]].formatted_address;
+      googleLocalityId = api.results[localityArray[0]].place_id;
+      subLocality1 = api.results[subLocality1Array[0]].address_components[0].long_name;
+      googleSubLocality1Id = api.results[subLocality1Array[0]].place_id;
+      subLocality2 = api.results[subLocality2Array[0]].address_components[0].long_name;
+      googleSubLocality2Id = api.results[subLocality2Array[0]].place_id;
+    } else if (localityArray[0] != null && subLocality1Array[0] != null) {
+      length = 2;
+      locality = api.results[localityArray[0]].formatted_address;
+      googleLocalityId = api.results[localityArray[0]].place_id;
+      subLocality1 = api.results[subLocality1Array[0]].address_components[0].long_name;
+      googleSubLocality1Id = api.results[subLocality1Array[0]].place_id;
+    } else if (localityArray[0] != null) {
+      length = 1;
+      locality = api.results[localityArray[0]].formatted_address;
+      googleLocalityId = api.results[localityArray[0]].place_id;
+    } else {
+      myObj = {
+        status: 'failed no address for this coordinate no locality found'
+      }
+      console.log(myObj);
+      res.end(JSON.stringify(myObj));
+    }
+    if(length>0){
       con.query("SELECT `localityId`, `tier`, `locality`, `wholesaleTier` FROM `LOCALITY_ID` WHERE `googleLocalityId` = ? ", [googleLocalityId], function(err, rows) {
         if (err) {
           console.log(err);
@@ -130,12 +124,14 @@ var get_location_id = function(req, res) {
           }
         }
       });
-    })
-    .catch(function(err) {
+    }
+  }).catch(function(err) {
       // API call failed...
       console.log("error in reverse geocoding api response");
-    });
+      res.sendstatus(500);
 
+  });
+}
 }
 module.exports = get_location_id;
 

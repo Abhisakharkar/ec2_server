@@ -27,7 +27,7 @@ const mageClient = require('./magentoOptions')
   }).then(products => {
     res.contentType('application/json');           //Get a list of all products in category
     var myObj = {
-      "responseFrom": "magento_get_product_in_category",
+      "responseFrom": "magento_get_product_with_ids",
       "items": products.items
     }
     res.send(JSON.stringify(myObj));
