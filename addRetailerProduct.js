@@ -12,6 +12,10 @@ var add_retailer_product = function(req, res, authData) {
   if (star == null) star = 0;
 
   var con = require('./databaseOptions')
+  if (retailerId==null || productId==null) {
+    res.sendStatus(400);
+  }else {
+
 
   var sql = "INSERT INTO `RET_PROD_ID` (`retailerId`, `productId`, `price`, `description`, `photo`, `availability`, `star`, `textField`) VALUES (?,?,?,?,?,?,?,?)";
   con.query(sql, [retailerId, productId, price, description, photo, availability, star, textField], function(err, result) {
@@ -36,6 +40,7 @@ var add_retailer_product = function(req, res, authData) {
     }
 
   });
+}
 }
 
 module.exports = add_retailer_product;

@@ -31,7 +31,7 @@ module.exports ={ makeQuery: function (req) {
         count++;
       }
     }
-    if (req.body.star!=rull) {
+    if (req.body.star!=null) {
       variablesValues.push(req.body.star);
       updateData.push({"star":req.body.star});
       if (updateVariables==null) {

@@ -4,8 +4,10 @@ var update_retailer_product = function(req, res, authData) {
   var retailerId = authData.data.retailerId;
   var productId = req.body.productId;
   if (productId == null) {
+    console.log("product id null");
     res.end("productId is a required field");
-  }
+  }else {
+
 
   var con = require('./databaseOptions')
 
@@ -38,6 +40,7 @@ var update_retailer_product = function(req, res, authData) {
       res.end(JSON.stringify(myObj));
     }
   });
+}
 }
 
 module.exports = update_retailer_product;
