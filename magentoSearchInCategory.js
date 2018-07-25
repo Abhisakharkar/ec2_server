@@ -2,25 +2,9 @@ var magento_search_product = function(req, res) {
 
     var searchTerm = req.body.searchTerm;
     var categoryId = req.body.categoryId;
-
+    if(searchTerm!=null && categoryId!=null){
     "use strict";
-
-    const Magento2 = require('node-magento2');
-
-    //instantiate the client object
-    const options = {
-      authentication: {
-        integration: { //from the integrations section in the magento2 backend
-          consumer_key: '9v92qagldi60lxcjn7c07chqesc2ebfu',
-          consumer_secret: '9nodsmg9fyt5af1f0uutkah4vol7a06a',
-          access_token: '8teumvy8mdp6epueimc382f4orfwfvmp',
-          access_token_secret: 'h6hfywb5k92lyyqjsahohn4bs6wyfbac'
-        }
-      }
-    }
-    const mageClient = new Magento2('http://localhost/magento', options)
-
-    mageClient.init()
+    const mageClient=require('./magentoOptions')
     mageClient.get('/V1/search?fields=items[id]', {
         "search_criteria": {
           //  "currentPage":'1',
@@ -77,5 +61,8 @@ var magento_search_product = function(req, res) {
           })
         }
     })
+  }else {
+    res.sendStatus(400);
+  }
 }
 module.exports = magento_search_product;
