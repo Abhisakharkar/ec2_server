@@ -277,6 +277,19 @@ var data;
       count++;
     }
   }
+  if (req.body.appliedForVerification!=null) {
+    if (updateVariables==null) {
+      updateVariables='appliedForVerification = ?';
+      variablesValues.push(req.body.appliedForVerification);
+      updateData.push({'appliedForVerification':req.body.appliedForVerification});
+      count++;
+    }else {
+      updateVariables+=', appliedForVerification = ?';
+      variablesValues.push(req.body.appliedForVerification);
+      updateData.push({'appliedForVerification':req.body.appliedForVerification});
+      count++;
+    }
+  }
   var obj={
     updateVariables:updateVariables,
     variablesValues:variablesValues,

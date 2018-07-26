@@ -227,6 +227,15 @@ app.post('/update_auth_data', jsonParser, function(req, res) {
 });
 
 
+app.post('/get_details_and_product_of_retailer', jsonParser, function(req, res) {
+  console.log("Request from:" + req.url);
+  if (!req.body) return res.sendStatus(400);
+
+      get_details_and_product_of_retailer = require('./getDetailsAndProductsOfRetailer');
+      get_details_and_product_of_retailer(req, res);
+
+});
+
 app.post('/magento_search_product', jsonParser, function(req, res) {
   if (!req.body) return res.sendStatus(400);
 
