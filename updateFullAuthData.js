@@ -10,19 +10,8 @@ var update_full_auth_data = function (req, res, authData) {
   var mysql = require('mysql');
   //var retailerId=authData.data.retailerId;
   retailerId=authData.data.retailerId;
-  var con = mysql.createConnection({
-    host: "localhost",
-    user: "root",
-    password: "MH31eh@2964",
-    database: "hoverBackend"
-  });
+  var con = require('./databaseOptions')
 
-  con.connect(function(err) {
-    if (err) {
-      console.log(err);
-      console.log("error in database connection");
-    } else {
-      console.log("Connected to database!");
       makeQueryForRetailerAuthDataUpdate=require('./makeQueryForRetailerAuthDataUpdate');
       var queryData=makeQueryForRetailerAuthDataUpdate.makeQuery(req);
       var updateVariables=queryData.updateVariables;
@@ -49,8 +38,7 @@ var update_full_auth_data = function (req, res, authData) {
          res.end(JSON.stringify(myobj));
         }
       });
-    }
-  });
+  
 
 
 }

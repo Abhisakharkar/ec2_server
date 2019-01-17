@@ -6,21 +6,8 @@ var check_mail_exist = function (req,res) {
   mail=req.body.mail;
   console.log(mail);
 
-  var con = mysql.createConnection({
-    host: "localhost",
-    user: "root",
-    password: "MH31eh@2964",
-    database: "hoverBackend"
-  });
-
-  con.connect(function(err) {
-    if (err) {
-    console.log(err);
-    console.log("error in database connection");
-    }
-    else {
-      console.log("Connected to database!");
-      var sql = "SELECT * FROM `RETAILER_AUTH` where `mail`= ?";
+  var con = require('./databaseOptions')
+  var sql = "SELECT * FROM `RETAILER_AUTH` where `mail`= ?";
       con.query(sql,[mail], function (err, rows) {
         if(err)
         {console.log(err);
@@ -45,7 +32,5 @@ var check_mail_exist = function (req,res) {
           res.end(JSON.stringify(myobj));
         }
       });
-    }
-  });
 }
 module.exports=check_mail_exist;

@@ -10,7 +10,7 @@ var check_device_id = function(req, res, authData) {
     } else {
       var myobj = {
         responseFrom: "check_device_id", // also  kept same for sign in
-        deviceId: rows[0].deviceId;
+        deviceId: rows[0].deviceId
       }
       res.send(JSON.stringify(myobj));
     }
